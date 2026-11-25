@@ -1,5 +1,5 @@
 import type { SleepEntry, SleepGoal } from "../lib/types";
-import { computeStats, minutesToHours } from "../lib/sleep";
+import { computeStats, dateKey, minutesToHours, todayStr } from "../lib/sleep";
 import ProgressRing from "./ProgressRing";
 import StarRating from "./StarRating";
 
@@ -12,7 +12,7 @@ interface DashboardProps {
 export default function Dashboard({ entries, goal, onSetGoal }: DashboardProps) {
   const stats = computeStats(entries, goal.targetHours);
   const todayEntry = entries.find(
-    (e) => e.date === new Date().toISOString().slice(0, 10),
+    (e) => e.date === todayStr(),
   );
   const progress = stats.lastNightHours
     ? stats.lastNightHours / goal.targetHours
@@ -23,7 +23,7 @@ export default function Dashboard({ entries, goal, onSetGoal }: DashboardProps) 
   for (let i = 0; i < 7; i++) {
     const d = new Date();
     d.setDate(d.getDate() - i);
-    const dateStr = d.toISOString().slice(0, 10);
+    const dateStr = dateKey(d);
     const entry = entries.find((e) => e.date === dateStr);
     if (entry) weekEntries.push(entry);
   }
@@ -55,7 +55,7 @@ export default function Dashboard({ entries, goal, onSetGoal }: DashboardProps) 
   for (let i = 7; i < 14; i++) {
     const d = new Date();
     d.setDate(d.getDate() - i);
-    const dateStr = d.toISOString().slice(0, 10);
+    const dateStr = dateKey(d);
     const entry = entries.find((e) => e.date === dateStr);
     if (entry) prevWeekEntries.push(entry);
   }

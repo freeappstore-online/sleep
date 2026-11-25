@@ -1,6 +1,6 @@
 import { useState, useMemo } from "react";
 import type { SleepEntry, SleepGoal } from "../lib/types";
-import { format12h, formatDuration } from "../lib/sleep";
+import { format12h, formatDuration, todayStr } from "../lib/sleep";
 import StarRating from "./StarRating";
 
 interface CalendarViewProps {
@@ -107,7 +107,7 @@ export default function CalendarView({
           const isSelected = selectedDate === dateStr;
           const hasEntry = entryMap.has(dateStr);
           const isToday =
-            dateStr === new Date().toISOString().slice(0, 10);
+            dateStr === todayStr();
 
           return (
             <button

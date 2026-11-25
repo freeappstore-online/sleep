@@ -35,16 +35,21 @@ export function minutesToHours(minutes: number): number {
   return Math.round((minutes / 60) * 10) / 10;
 }
 
+/** Format a Date as a local YYYY-MM-DD key */
+export function dateKey(d: Date): string {
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+}
+
 /** Get today's date as YYYY-MM-DD */
 export function todayStr(): string {
-  return new Date().toISOString().slice(0, 10);
+  return dateKey(new Date());
 }
 
 /** Get date N days ago as YYYY-MM-DD */
 export function daysAgo(n: number): string {
   const d = new Date();
   d.setDate(d.getDate() - n);
-  return d.toISOString().slice(0, 10);
+  return dateKey(d);
 }
 
 /** Compute sleep stats from entries */

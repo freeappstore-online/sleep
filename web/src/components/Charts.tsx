@@ -1,6 +1,6 @@
 import { useRef, useEffect, useState, useCallback } from "react";
 import type { SleepEntry } from "../lib/types";
-import { getRecentEntries, estimateStages, minutesToHours } from "../lib/sleep";
+import { dateKey, getRecentEntries, estimateStages, minutesToHours } from "../lib/sleep";
 
 interface ChartsProps {
   entries: SleepEntry[];
@@ -126,7 +126,7 @@ function DurationChart({
       for (let i = 13; i >= 0; i--) {
         const d = new Date();
         d.setDate(d.getDate() - i);
-        const dateStr = d.toISOString().slice(0, 10);
+        const dateStr = dateKey(d);
         const entry = recent.find((e) => e.date === dateStr);
         data.push({
           label: d.toLocaleDateString("en-US", { day: "numeric" }),
@@ -266,7 +266,7 @@ function TimesChart({ entries }: { entries: SleepEntry[] }) {
       for (let i = 13; i >= 0; i--) {
         const d = new Date();
         d.setDate(d.getDate() - i);
-        const dateStr = d.toISOString().slice(0, 10);
+        const dateStr = dateKey(d);
         const entry = recent.find((e) => e.date === dateStr);
         if (entry) {
           const idx = 13 - i;
@@ -379,7 +379,7 @@ function QualityChart({ entries }: { entries: SleepEntry[] }) {
       for (let i = 13; i >= 0; i--) {
         const d = new Date();
         d.setDate(d.getDate() - i);
-        const dateStr = d.toISOString().slice(0, 10);
+        const dateStr = dateKey(d);
         const entry = recent.find((e) => e.date === dateStr);
         if (entry) {
           const idx = 13 - i;
@@ -463,7 +463,7 @@ function WeeklyAvgChart({
         for (let d = startDay; d < startDay + 7; d++) {
           const date = new Date();
           date.setDate(date.getDate() - d);
-          const dateStr = date.toISOString().slice(0, 10);
+          const dateStr = dateKey(date);
           const entry = entries.find((e) => e.date === dateStr);
           if (entry) weekEntries.push(entry);
         }
